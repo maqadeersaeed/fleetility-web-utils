@@ -7,10 +7,9 @@
 		<artifactId>fmis-be</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.fmis</groupId>
 	<artifactId>fmis-web-utils</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fmis-web-utils</name>
+	<name>web-utils</name>
 	<description>fmis-web-utils</description>
 	<dependencies>
 		<dependency>
