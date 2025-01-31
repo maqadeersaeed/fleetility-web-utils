@@ -1,4 +1,4 @@
-package com.fmis;
+package com.fleetility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import com.fmis.dto.ErrorResponse;
-import com.fmis.dto.MessageDTO;
-import com.fmis.dto.MessageDTO.MessageTypes;
-import com.fmis.dto.MessageDetails;
-import com.fmis.exception.ExpiredSSOTokenException;
-import com.fmis.exception.FmisException;
-import com.fmis.exception.InvalidTokenException;
-import com.fmis.exception.InvalidUserException;
-import com.fmis.exception.ServiceException;
-import com.fmis.exception.ServiceExceptionXYZ;
-import com.fmis.exception.UnAuthorizedException;
-import com.fmis.exception.UnverifiedUserException;
-import com.fmis.exception.ValidationException;
+import com.fleetility.dto.ErrorResponse;
+import com.fleetility.dto.MessageDTO;
+import com.fleetility.dto.MessageDTO.MessageTypes;
+import com.fleetility.dto.MessageDetails;
+import com.fleetility.exception.ExpiredSSOTokenException;
+import com.fleetility.exception.FleetilityException;
+import com.fleetility.exception.InvalidTokenException;
+import com.fleetility.exception.InvalidUserException;
+import com.fleetility.exception.ServiceException;
+import com.fleetility.exception.ServiceExceptionXYZ;
+import com.fleetility.exception.UnAuthorizedException;
+import com.fleetility.exception.UnverifiedUserException;
+import com.fleetility.exception.ValidationException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,10 +51,10 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({ InvalidUserException.class, UsernameNotFoundException.class, InvalidTokenException.class })
 	public ResponseEntity<ErrorResponse> handleInvalidUserException(Exception e, WebRequest request) {
-		FmisException ex = null;
+		FleetilityException ex = null;
 		log.debug("handleInvalidUserException   " + e.getMessage());
-		if (e instanceof FmisException) {
-			ex = (FmisException) e;
+		if (e instanceof FleetilityException) {
+			ex = (FleetilityException) e;
 		}
 		ErrorResponse errorResponse = new ErrorResponse();
 		Optional<List<MessageDTO>> messageDTOs = ex.getErrorCodes();
@@ -85,14 +85,14 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
 	}
 	
-	@ExceptionHandler({ ServiceException.class, ServiceExceptionXYZ.class, FmisException.class })
+	@ExceptionHandler({ ServiceException.class, ServiceExceptionXYZ.class, FleetilityException.class })
 	// @ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<ErrorResponse> handle(Exception e, WebRequest request) {
-		FmisException ex = null;
+		FleetilityException ex = null;
 		//UserDTO userDTO = jwtUtils.getUserInfoFromJwtToken(context);
 		log.debug("ServiceException  1 " + e.getMessage());
-		if (e instanceof FmisException) {
-			ex = (FmisException) e;
+		if (e instanceof FleetilityException) {
+			ex = (FleetilityException) e;
 		}
 		ex.printStackTrace();
 		ErrorResponse errorResponse = new ErrorResponse();
@@ -122,10 +122,10 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({ UnAuthorizedException.class })
 	public ResponseEntity<ErrorResponse> handleUnauthorizedException(Exception e, WebRequest request) {
-		FmisException ex = null;
+		FleetilityException ex = null;
 		log.debug("handleUnauthorizedException   " + e.getMessage());
-		if (e instanceof FmisException) {
-			ex = (FmisException) e;
+		if (e instanceof FleetilityException) {
+			ex = (FleetilityException) e;
 		}
 		e.printStackTrace();
 		ErrorResponse errorResponse = new ErrorResponse();
@@ -149,10 +149,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({ UnverifiedUserException.class})
 	// @ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<ErrorResponse> handleUnverifiedUserException(Exception e, WebRequest request) {
-		FmisException ex = null;
+		FleetilityException ex = null;
 		log.debug("handleUnverifiedUserException   " + e.getMessage());
-		if (e instanceof FmisException) {
-			ex = (FmisException) e;
+		if (e instanceof FleetilityException) {
+			ex = (FleetilityException) e;
 		}
 		ErrorResponse errorResponse = new ErrorResponse();
 		Optional<List<MessageDTO>> messageDTOs = ex.getErrorCodes();
@@ -216,10 +216,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({ ExpiredSSOTokenException.class})
 	// @ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<ErrorResponse> handleExpiredSSOTokenException(Exception e, WebRequest request) {
-		FmisException ex = null;
+		FleetilityException ex = null;
 		log.debug("handleUnverifiedUserException   " + e.getMessage());
-		if (e instanceof FmisException) {
-			ex = (FmisException) e;
+		if (e instanceof FleetilityException) {
+			ex = (FleetilityException) e;
 		}
 		ErrorResponse errorResponse = new ErrorResponse();
 		Optional<List<MessageDTO>> messageDTOs = ex.getErrorCodes();

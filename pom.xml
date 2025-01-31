@@ -3,23 +3,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.fmis</groupId>
-		<artifactId>fmis-be</artifactId>
+		<groupId>com.fleetility</groupId>
+		<artifactId>fleetility-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../fleetility-parent/pom.xml</relativePath>
 	</parent>
-	<artifactId>fmis-web-utils</artifactId>
+	<artifactId>fleetility-web-utils</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>web-utils</name>
-	<description>fmis-web-utils</description>
+	<description>fleetility-web-utils</description>
 	<dependencies>
 		<dependency>
-			<groupId>com.fmis</groupId>
-			<artifactId>fmis-common</artifactId>
+			<groupId>com.fleetility</groupId>
+			<artifactId>fleetility-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-				<groupId>com.fmis</groupId>
-				<artifactId>fmis-security-utils</artifactId>
+				<groupId>com.fleetility</groupId>
+				<artifactId>fleetility-security-utils</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

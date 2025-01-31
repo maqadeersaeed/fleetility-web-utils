@@ -1,4 +1,4 @@
-package com.fmis;
+package com.fleetility;
 
 public class Constants {
 	

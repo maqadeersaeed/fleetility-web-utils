@@ -1,4 +1,4 @@
-package com.fmis;
+package com.fleetility;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fmis.sec.UserInfo;
+import com.fleetility.sec.UserInfo;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
