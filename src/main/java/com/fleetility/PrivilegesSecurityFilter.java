@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fleetility.sec.UserInfo;
+import com.fleetility.security.FleetilityUserPrincipal;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 // TODO Qadeer ::: Find way to Move it to security
 @Component
-public class PrivielgesSecurityFilter extends OncePerRequestFilter {
+public class PrivilegesSecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -30,14 +30,14 @@ public class PrivielgesSecurityFilter extends OncePerRequestFilter {
 
     	
         String authoritiesHeader = request.getHeader("X-Authorities");
-        String userInfoHeader = request.getHeader("X-User-Details");
+        String principalUserHeader = request.getHeader("X-User-Principal");
 
-        if (authoritiesHeader != null && userInfoHeader != null) {
+        if (authoritiesHeader != null && principalUserHeader != null) {
         	ObjectMapper objectMapper = new ObjectMapper();
             try {
             	
                 // Deserialize user details from JSON
-            	UserInfo userInfo = objectMapper.readValue(userInfoHeader, UserInfo.class);
+            	FleetilityUserPrincipal principalUser = objectMapper.readValue(principalUserHeader, FleetilityUserPrincipal.class);
             	
                 // Deserialize authorities from JSON
                 List<String> authoritiesList = objectMapper.readValue(authoritiesHeader, List.class);
@@ -48,9 +48,13 @@ public class PrivielgesSecurityFilter extends OncePerRequestFilter {
                         .toList();
 
                 // Create Authentication object
+//                UsernamePasswordAuthenticationToken authentication =
+//                        new UsernamePasswordAuthenticationToken(principalUser.getUsername(), null, authorities);
+                
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userInfo.getUsername(), null, authorities);
-                authentication.setDetails(userInfo);
+                        new UsernamePasswordAuthenticationToken(principalUser, null, authorities);
+                
+                authentication.setDetails(principalUser);
                 
                 // Set the Authentication in SecurityContext
                 SecurityContextHolder.getContext().setAuthentication(authentication);
