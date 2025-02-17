@@ -68,6 +68,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({ MethodArgumentNotValidException.class, FleetilityValidationException.class })
 	public ResponseEntity<ErrorResponse> handleValidationExption(Exception e, HttpServletRequest request) {
 		log.debug("MethodArgumentNotValidException   " + e.getMessage());
+		Locale locale = getReqLocale(request);
 
 		List<MessageDetails> errors = new ArrayList<>();
 		
@@ -79,7 +80,15 @@ public class GlobalExceptionHandler {
 		
 		if (e instanceof FleetilityValidationException fve) {
 			fve.getFieldErrors().forEach(fe -> {
-				errors.add(new MessageDetails(fe.getDefaultMessage(), MessageTypes.ERROR.value, fe.getField(), "", ""));
+				errors.add(
+						new MessageDetails(
+								getMessageResource(fe.getDefaultMessage(), locale, null), 
+								MessageTypes.ERROR.value,
+								fe.getField(), 
+								"",
+								"")
+						);
+				
 			});
 		}
 		
