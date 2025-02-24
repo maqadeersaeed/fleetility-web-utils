@@ -18,10 +18,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.fleetility.dto.ErrorResponse;
-import com.fleetility.dto.MessageDTO;
-import com.fleetility.dto.MessageDTO.MessageTypes;
-import com.fleetility.dto.MessageDetails;
+import com.fleetility.common.dto.ErrorResponse;
+import com.fleetility.common.dto.MessageDTO;
+import com.fleetility.common.dto.MessageDetails;
+import com.fleetility.common.dto.MessageDTO.MessageTypes;
 import com.fleetility.exception.FleetilityException;
 import com.fleetility.exception.FleetilityValidationException;
 import com.fleetility.exception.InvalidTokenException;
@@ -52,8 +52,8 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGenericException(Exception e, HttpServletRequest request) {
+		e.printStackTrace();
 		log.debug("handleGenericException: {}", e.getMessage());
-
 		Optional<List<MessageDTO>> messageDTOs = getMessageDTOs(e);
 		return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "", request,  messageDTOs.orElse(Collections.emptyList()));
 	}
@@ -68,6 +68,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({ MethodArgumentNotValidException.class, FleetilityValidationException.class })
 	public ResponseEntity<ErrorResponse> handleValidationExption(Exception e, HttpServletRequest request) {
 		log.debug("MethodArgumentNotValidException   " + e.getMessage());
+		e.printStackTrace();
 		Locale locale = getReqLocale(request);
 
 		List<MessageDetails> errors = new ArrayList<>();
@@ -109,6 +110,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({ InvalidUserException.class, UsernameNotFoundException.class, InvalidTokenException.class, AccessDeniedException.class})
 	public ResponseEntity<ErrorResponse> handleInvalidAccessException(Exception e, HttpServletRequest request) {
+		e.printStackTrace();
 		log.debug("handleInvalidAccessException " + e.getMessage());
 		
 		Optional<List<MessageDTO>> messageDTOs = getMessageDTOs(e);
@@ -138,6 +140,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({ ExpiredJwtException.class })
 	public ResponseEntity<ErrorResponse> handleExpiredJwtException(Exception e, HttpServletRequest request) {
+		e.printStackTrace();
 		log.debug("handleExpiredJwtException   " + e.getMessage());
 		Optional<List<MessageDTO>> messageDTOs = getMessageDTOs(e);
 		return buildResponse(HttpStatus.FORBIDDEN, "ExpiredJwtException", "FORBIDDEN ERROR ExpiredJwtException", request, Collections.emptyList());
@@ -153,6 +156,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({ ServiceException.class, ServiceExceptionXYZ.class, FleetilityException.class })
 	public ResponseEntity<ErrorResponse> handle(Exception e, HttpServletRequest request) {
+		e.printStackTrace();
 		log.debug("ServiceException  1 " + e.getMessage());
 		
 		// ex.printStackTrace();
@@ -177,6 +181,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler({ UnAuthorizedException.class})
 	public ResponseEntity<ErrorResponse> handleUnauthorizedException(Exception e, HttpServletRequest request) {
+		e.printStackTrace();
 		Optional<List<MessageDTO>> messageDTOs = getMessageDTOs(e);
 		return buildResponse(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED", null, request, messageDTOs.orElse(Collections.emptyList()));
 	}
